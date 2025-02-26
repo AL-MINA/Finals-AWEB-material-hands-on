@@ -1,81 +1,112 @@
-
-<div class="form-container">
-    <h1 class="form-title">Registration Form</h1>
+<div class="form-container" [class.dark-mode]="darkMode">
+    <h1 class="form-title">Survey Form</h1>
     <form [formGroup]="formdata" (ngSubmit)="onClickSubmit(formdata.value)">
-    
-    <!-- Username Field -->
-    <mat-form-field appearance="fill">
-    <mat-label>Username</mat-label>
-    <input matInput placeholder="Enter Text" formControlName="userName">
-    </mat-form-field>
-    
-    <!-- Email Field -->
-    <mat-form-field appearance="fill">
-    <mat-label>Email</mat-label>
-    <input matInput type="email" placeholder="Enter Email" formControlName="email">
-    <mat-error *ngIf="formdata.controls['email'].invalid && formdata.controls['email'].touched">
-        Email is required and must be a valid email.
-    </mat-error>
-    </mat-form-field>
-    
-    <!-- Password Field -->
-    <mat-form-field appearance="fill">
-    <mat-label>Password</mat-label>
-    <input matInput type="password" placeholder="Enter password" formControlName="password">
-    <mat-error *ngIf="formdata.controls['password'].invalid && formdata.controls['password'].touched">
-    Password is required and must be at least 8 characters long.
-    </mat-error>
-    </mat-form-field>
-    
-    <!-- Gender Selection -->
-    <div class="radio-group">
-    <label class="radio-label">Gender</label>
-    <mat-radio-group formControlName="gender" class="gender-radio-group">
-    <mat-radio-button value="male">Male</mat-radio-button>
-    <mat-radio-button value="female">Female</mat-radio-button>
-    <mat-radio-button value="other">Other</mat-radio-button>
-    </mat-radio-group>
-    </div>
-    
-    <!-- Address Field -->
-    <mat-form-field appearance="fill">
-    <mat-label>Address</mat-label>
-    <input matInput placeholder="Enter Address" formControlName="address">
-    </mat-form-field>
-    
-    <!-- Birth Date Picker -->
-    <mat-form-field appearance="fill">
-    <mat-label>Birth Date</mat-label>
-    <input matInput [matDatepicker]="picker" placeholder="Select a date" formControlName="birthDate">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-    <mat-error *ngIf="formdata.get('birthDate')?.hasError('required')">
-        Birth date is required.
-    </mat-error>
-    </mat-form-field>
-    
-    <!-- Angular Skill Level Slider -->
-    <div class="slider-group">
-    <label class="slider-label">Angular Skill Level: {{ formdata.get('angularSkillLevel')?.value }}</label>
-    <mat-slider [min]="minSkillLevel" [max]="maxSkillLevel" [step]="1" [discrete]="true">
-    <input matSliderThumb formControlName="angularSkillLevel"></mat-slider>
-    </div>
-    
-    <!-- Submit Button -->
-    <button mat-raised-button color="primary" type="submit" [disabled]="!formdata.valid">
-        Click Here
-    </button>
+        
+        <!-- Username Field -->
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Enter Username" formControlName="userName">
+            <mat-error *ngIf="formdata.get('userName')?.invalid && formdata.get('userName')?.touched">
+                Username is required.
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Email Field -->
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="Enter Email" formControlName="email">
+            <mat-error *ngIf="formdata.get('email')?.invalid && formdata.get('email')?.touched">
+                Valid email is required.
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Password Field -->
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Enter Password" formControlName="password">
+            <mat-error *ngIf="formdata.get('password')?.invalid && formdata.get('password')?.touched">
+                Password must be at least 8 characters, alphanumeric, and start with a letter.
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Birth Date Picker -->
+        <mat-form-field appearance="fill">
+            <mat-label>Birth Date</mat-label>
+            <input matInput [matDatepicker]="picker" placeholder="Select Birthdate" formControlName="birthDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="formdata.get('birthDate')?.hasError('invalidDOB')">
+                You must be born in 2006 or earlier.
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Gender Selection -->
+        <label class="gender-label">Gender</label>
+        <mat-radio-group formControlName="gender" class="gender-radio-group">
+            <mat-radio-button value="male">Male</mat-radio-button>
+            <mat-radio-button value="female">Female</mat-radio-button>
+            <mat-radio-button value="other">Other</mat-radio-button>
+        </mat-radio-group>
+        <mat-error *ngIf="formdata.get('gender')?.invalid && formdata.get('gender')?.touched">
+            Please select your gender.
+        </mat-error>
+
+        <!-- Survey Questions -->
+        <h3>Survey Questions</h3>
+
+        <!-- Satisfaction Level -->
+        <mat-form-field appearance="fill">
+            <mat-label>How satisfied are you with our service?</mat-label>
+            <mat-select formControlName="satisfaction">
+                <mat-option value="verySatisfied">Very Satisfied</mat-option>
+                <mat-option value="satisfied">Satisfied</mat-option>
+                <mat-option value="neutral">Neutral</mat-option>
+                <mat-option value="dissatisfied">Dissatisfied</mat-option>
+                <mat-option value="veryDissatisfied">Very Dissatisfied</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Likert Scale Question -->
+        <div class="slider-group">
+            <label class="slider-label">How likely are you to recommend us?</label>
+            <mat-slider min="1" max="5" step="1" discrete>
+                <input matSliderThumb formControlName="recommendationLevel">
+            </mat-slider>
+        </div>
+
+        <!-- Comments Section -->
+        <mat-form-field appearance="fill">
+            <mat-label>Additional Comments</mat-label>
+            <textarea matInput rows="3" formControlName="comments"></textarea>
+        </mat-form-field>
+
+        <!-- Terms Agreement -->
+        <mat-checkbox formControlName="agreeTerms" color="primary">
+            I agree to the terms and conditions
+        </mat-checkbox>
+        <mat-error *ngIf="formdata.get('agreeTerms')?.invalid && formdata.get('agreeTerms')?.touched">
+            You must agree to the terms and conditions.
+        </mat-error>
+
+        <!-- Dark Mode Toggle -->
+        <mat-slide-toggle [checked]="darkMode" (change)="toggleTheme($event)">Dark Mode</mat-slide-toggle>
+
+        <!-- Submit Button -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="!formdata.valid">
+            Submit Survey
+        </button>
+
     </form>
-    
+
     <!-- Display User Input Details -->
     <p *ngIf="submitted" class="user-input-details">
-        You have entered: <br>
-        Username: {{ userName }} <br>
-        Email: {{ email }} <br>
-        Password: {{ password }} <br>
-        Gender: {{ gender }} <br>
-        Address: {{ address }} <br>
-        Birth Date: {{ birthDate | date: 'shortDate' }} <br>
-        Angular Skill Level: {{ angularSkillLevel }}
+        Thank you for your feedback! <br>
+        Username: {{ formdata.get('userName')?.value }} <br>
+        Email: {{ formdata.get('email')?.value }} <br>
+        Birth Date: {{ formdata.get('birthDate')?.value | date: 'shortDate' }} <br>
+        Gender: {{ formdata.get('gender')?.value }} <br>
+        Satisfaction Level: {{ formdata.get('satisfaction')?.value }} <br>
+        Recommendation Score: {{ formdata.get('recommendationLevel')?.value }} <br>
+        Comments: {{ formdata.get('comments')?.value }}
     </p>
 </div>

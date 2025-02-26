@@ -1,0 +1,16 @@
+h1 {
+    font-size: 1.5rem;
+    color: #ff69b4;
+    margin-top: 20px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
+    max-width: 600px;
+  }
+
+  h1:hover {
+    color: #ff1493;
+    text-shadow: 0 0 20px rgba(255, 105, 180, 1);
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+  }
+  
